@@ -27,6 +27,11 @@ public class CrankcaseAudio {
     return ret;
   }
 
+  public static bool GetHasLoops(SWIGTYPE_p_void inModelHandle) {
+    bool ret = CrankcaseAudioPINVOKE.GetHasLoops(SWIGTYPE_p_void.getCPtr(inModelHandle));
+    return ret;
+  }
+
   public static VehiclePhysicsControlData GetREVPhysicsControlData(SWIGTYPE_p_void inModelHandle) {
     VehiclePhysicsControlData ret = new VehiclePhysicsControlData(CrankcaseAudioPINVOKE.GetREVPhysicsControlData(SWIGTYPE_p_void.getCPtr(inModelHandle)), true);
     return ret;

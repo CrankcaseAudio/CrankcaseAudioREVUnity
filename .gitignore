@@ -9,6 +9,7 @@ Obj/
 UnityGenerated/
 Library
 *.orig
+Build/
 
 # ===================================== #
 # Visual Studio / MonoDevelop generated #
@@ -23,6 +24,7 @@ ExportedObj/
 *.user
 *.unityproj
 *.booproj
+.vs/
  
 # ============ #
 # OS generated #

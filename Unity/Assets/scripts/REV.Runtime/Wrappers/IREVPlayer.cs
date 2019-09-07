@@ -80,6 +80,12 @@ public partial class IREVPlayer : IDisposable {
     if (CrankcaseAudioPINVOKE.SWIGPendingException.Pending) throw CrankcaseAudioPINVOKE.SWIGPendingException.Retrieve();
   }
 
+  public virtual float Reset(REVPlayerUpdateParams updateParams, float deltaTimeSec) {
+    float ret = CrankcaseAudioPINVOKE.IREVPlayer_Reset(swigCPtr, REVPlayerUpdateParams.getCPtr(updateParams), deltaTimeSec);
+    if (CrankcaseAudioPINVOKE.SWIGPendingException.Pending) throw CrankcaseAudioPINVOKE.SWIGPendingException.Retrieve();
+    return ret;
+  }
+
   public virtual int getNumberChannels() {
     int ret = CrankcaseAudioPINVOKE.IREVPlayer_getNumberChannels(swigCPtr);
     return ret;
@@ -107,6 +113,12 @@ public partial class IREVPlayer : IDisposable {
 
   public virtual void setRPMSmoothness(float value) {
     CrankcaseAudioPINVOKE.IREVPlayer_setRPMSmoothness(swigCPtr, value);
+  }
+
+  public virtual SWIGTYPE_p_void getModelFileHandle() {
+    IntPtr cPtr = CrankcaseAudioPINVOKE.IREVPlayer_getModelFileHandle(swigCPtr);
+    SWIGTYPE_p_void ret = (cPtr == IntPtr.Zero) ? null : new SWIGTYPE_p_void(cPtr, false);
+    return ret;
   }
 
 }

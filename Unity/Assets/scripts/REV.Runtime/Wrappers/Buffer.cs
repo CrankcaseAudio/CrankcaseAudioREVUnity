@@ -121,8 +121,12 @@ public partial class Buffer : IDisposable {
     CrankcaseAudioPINVOKE.Buffer_Reset(swigCPtr);
   }
 
+  public void Clear(int size) {
+    CrankcaseAudioPINVOKE.Buffer_Clear__SWIG_0(swigCPtr, size);
+  }
+
   public void Clear() {
-    CrankcaseAudioPINVOKE.Buffer_Clear(swigCPtr);
+    CrankcaseAudioPINVOKE.Buffer_Clear__SWIG_1(swigCPtr);
   }
 
 }

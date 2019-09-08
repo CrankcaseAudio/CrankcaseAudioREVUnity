@@ -7,7 +7,7 @@ using CrankcaseAudio.Wrappers;
 using UnityEngine.Assertions;
 using UnityEngine.Audio;
 
-public class Main : MonoBehaviour
+public abstract class Main : MonoBehaviour
 {
     public static String appVersion = "0.0";
     public static Main instance;
@@ -19,38 +19,6 @@ public class Main : MonoBehaviour
     public bool isEngineRunning { get; private set; }
 
     public string errorMessage { get; private set; }
-    public readonly List<string> demoModels = new List<string>
-    {
-#if APPSTORE
-        "Volkswagen_Golf_VR6_2004",
-        "Toyota_GT86",
-        "Porsche_997",
-        "Pontiac_Grand_Prix",
-        "Nissan_370z",
-        "Mazda_RX8_2006",
-        "Mazda_RX8_2006_v2",
-        "Honda_NSX_1991",
-        "Honda_Civic",
-        "Ford_RS200",
-        "Ford_Mustang",
-        "Ferrari_575M",
-        "Ferrari_430",
-        "Dodge_Viper",
-        "Dodge_Challenger_Sixpack_1970",
-        "Dodge_Challenger_Sixpack_1970_v2",
-        "De_Tomaso_Pantera",
-        "Chevrolet_Corvette_Z06_2006",
-        "Chevrolet_Corvette_Z06_2006_v2",
-        "Chevrolet_Camaro_Super_Hugger",
-        "Chevrolet_Camaro_SS",
-        "Camaro_SS",
-        "Audi_R8",
-        "Alfa_Romeo_8C_Competizione",
-        "Acura_Integra_1992"
-#else 
-        "Camaro_SS"
-#endif
-    };
 
     private GameObject car;
 
@@ -60,17 +28,6 @@ public class Main : MonoBehaviour
     {
         Debug.Log("Starting up REV");
         instance = this;
-
-        //Size to the largest model you have, in bytes, as well as the number of instances you will want.
-        try
-        {
-            LoadEngine(demoModels[0]);
-        }
-        catch(System.Exception ex)
-        {
-            errorMessage = ex.ToString();
-        }
-
     }
 
     // Update is called once per frame

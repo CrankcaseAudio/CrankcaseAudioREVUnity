@@ -51,8 +51,12 @@ public class MainUGUI : Main
         animator.enabled = false;
 
         // Start Application/Engine
-        base.StartEngine();
+        //Size to the largest model you have, in bytes, as well as the number of instances you will want.
+        LoadEngineFirstEngine();
+        StartEngine();
     }
+
+
 
     protected new void Update()
     {
@@ -67,6 +71,12 @@ public class MainUGUI : Main
         // Remap rpm (0-1) to (1000-8000)
         float textRpm = HelperFunctions.Retarget(base.GetRPM(), 0f, 1f, 1000f, 8000f);
         rpmText.text = textRpm.ToString("0000");
+    }
+
+    protected void LoadEngineFirstEngine()
+    {
+        this.LoadEngine(carSelectionManager.FirstCar().fileName);
+
     }
 
     private IEnumerator StartEngineDelay(CarSelectionItem.CarEventArgs e, float delay = 0.5f)

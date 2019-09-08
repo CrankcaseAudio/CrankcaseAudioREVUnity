@@ -27,6 +27,11 @@ public class CarSelectionManager : MonoBehaviour
     private float scrollAnimationDuration = 0.7f;
     private Coroutine scrollAnimationCR = null;
 
+    public Car FirstCar()
+    {
+        return cars[0];
+    }
+
     public void Initialize()
     {
         backButton.onClick.AddListener(BackButton_OnClick);

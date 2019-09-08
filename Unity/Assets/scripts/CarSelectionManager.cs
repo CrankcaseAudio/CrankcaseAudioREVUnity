@@ -34,11 +34,11 @@ public class CarSelectionManager : MonoBehaviour
 
     public void Initialize()
     {
-        backButton.onClick.AddListener(BackButton_OnClick);
-        string configFile = string.Format("{0}\\{1}", Application.streamingAssetsPath, configFilename);
-        cars = IOHelper.ReadConfigFile(configFile);
-        CreateCarList();
         this.gameObject.SetActive(false);
+
+        backButton.onClick.AddListener(BackButton_OnClick);
+        cars = IOHelper.ReadConfigFile(configFilename);
+        CreateCarList();
     }
 
     private void ScrollTo(int index)

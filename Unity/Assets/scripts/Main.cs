@@ -18,8 +18,6 @@ public abstract class Main : MonoBehaviour
     
     public bool isEngineRunning { get; private set; }
 
-    public string errorMessage { get; private set; }
-
     private GameObject car;
 
     #region MonoBehaviour
@@ -33,6 +31,12 @@ public abstract class Main : MonoBehaviour
     // Update is called once per frame
     protected void Update ()
     {
+
+//        if (errorMessage)
+//        {
+//
+//        }
+
         if(engineSimulator != null && physicsSimulator != null)
         {
             REVPhysicsSimulator.PhysicsOutputParameters outputParams = physicsSimulator.OutputParams;

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -15,33 +16,46 @@ public class MainUGUI : Main
     public TMPro.TextMeshProUGUI rpmText;
     public Animator animator;
     public GameObject popUpWindow;
+    public GameObject errorWindow;
     public SubMenuSlider subMenuSlider;
+    public TMPro.TextMeshProUGUI errorTextBox;
 
     private CarSelectionManager carSelectionManager;
 
     private IEnumerator Start()
     {
         base.Initialize();
-        carSelectionManager = FindObjectOfType<CarSelectionManager>();
-        carSelectionManager.Initialize();
-        carSelectionManager.onSelectItem += CarSelectionManager_onSelectItem;
-
-        pitchSlider.minValue = 0.8f;
-        pitchSlider.maxValue = 1.2f;
-        pitchSlider.value = 1f;
-
-        throttleSlider.minValue = -0.3f;
-        throttleSlider.maxValue = 0.7f;
-
-        volumeSlider.value = 0.8f;
-
-        // Add handlers after setting initial values
-        selectCarButton.onClick.AddListener(SelectButton_OnClick);
-        pitchSlider.onValueChanged.AddListener(PitchSlider_OnValueChanged);
-        volumeSlider.onValueChanged.AddListener(VolumeSlider_OnValueChanged);
-        throttleSlider.onValueChanged.AddListener(ThrottleSlider_OnValueChanged);
 
         ShowPopUp(false);
+        HideError();
+        try {
+
+            carSelectionManager = FindObjectOfType<CarSelectionManager>();
+            carSelectionManager.Initialize();
+            carSelectionManager.onSelectItem += CarSelectionManager_onSelectItem;
+
+            
+            pitchSlider.minValue = 0.8f;
+            pitchSlider.maxValue = 1.2f;
+            pitchSlider.value = 1f;
+
+            throttleSlider.minValue = -0.3f;
+            throttleSlider.maxValue = 0.7f;
+
+            volumeSlider.value = 0.8f;
+
+            // Add handlers after setting initial values
+            selectCarButton.onClick.AddListener(SelectButton_OnClick);
+            pitchSlider.onValueChanged.AddListener(PitchSlider_OnValueChanged);
+            volumeSlider.onValueChanged.AddListener(VolumeSlider_OnValueChanged);
+            throttleSlider.onValueChanged.AddListener(ThrottleSlider_OnValueChanged);
+
+        }
+        catch (Exception exception)
+        {
+            ShowError(exception.ToString());
+        }
+
 
         // Wait animation to end
         float animationDuration = this.animator.GetCurrentAnimatorStateInfo(0).length;
@@ -50,10 +64,16 @@ public class MainUGUI : Main
         // Unlock elements
         animator.enabled = false;
 
-        // Start Application/Engine
-        //Size to the largest model you have, in bytes, as well as the number of instances you will want.
-        LoadEngineFirstEngine();
-        StartEngine();
+        try
+        {
+            LoadEngineFirstEngine();
+            StartEngine();
+        }
+        catch (Exception exception)
+        {
+            ShowError(exception.ToString());
+        }
+        
     }
 
 
@@ -76,7 +96,6 @@ public class MainUGUI : Main
     protected void LoadEngineFirstEngine()
     {
         this.LoadEngine(carSelectionManager.FirstCar().fileName);
-
     }
 
     private IEnumerator StartEngineDelay(CarSelectionItem.CarEventArgs e, float delay = 0.5f)
@@ -86,11 +105,30 @@ public class MainUGUI : Main
         base.LoadEngine(e.car.fileName);
     }
 
+
+    public void HideError()
+    {
+        errorWindow.SetActive(false);
+    }
+
+
+    public void ShowError(String message)
+    {
+        errorWindow.SetActive(true);
+        const int MAX_MESSAGE_LENGTH = 1000;
+        if (message.Length > MAX_MESSAGE_LENGTH)
+        {
+            message = message.Substring(0, MAX_MESSAGE_LENGTH);
+        }
+        errorTextBox.text = message;
+    }
+
     public void ShowPopUp(bool show)
     {
         // Hide menu for NonMobile
         if (!Application.isMobilePlatform && show)
             subMenuSlider.ToggleSlide();
+
         popUpWindow.SetActive(show);
     }
 

@@ -22,14 +22,17 @@ public static class IOHelper
         List<Car> cars = new List<Car>();
 
         // Check if config file exists
-        if (!File.Exists(file))
+        var asset = Resources.Load<TextAsset>(file);
+
+        if (asset == null)
         {
-            Debug.LogError(string.Format("Configuration File doesn't exists\n{0}", file));
-            return cars;
+            var errorMessage = string.Format("Configuration File doesn't exists\n{0}", file);
+            Debug.LogError(errorMessage);
+            throw new Exception(errorMessage);
         }
 
         // Read all lines form file
-        string[] lines = File.ReadAllLines(file);
+        string[] lines = asset.text.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
         for (int i = 0; i < lines.Length; i++)
         {
             if (skipFirstLine && i == 0)

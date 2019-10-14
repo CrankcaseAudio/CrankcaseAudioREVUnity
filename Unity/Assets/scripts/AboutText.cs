@@ -10,7 +10,7 @@ namespace Assets.scripts
         protected override void Awake()
         {
             base.Awake();
-            m_text = String.Format("Crankcase Audio Inc.\n2019 All Rights Reserved\nwww.crankcaseaudio.com\nsupport@crankcaseaudio.com\nv{0}", REVEnginePlayer.VERSION);
+            m_text = String.Format("Crankcase Audio Inc.\n2019 All Rights Reserved\nwww.crankcaseaudio.com\nsupport@crankcaseaudio.com\ngithub.com/CrankcaseAudio\nv{0}", REVEnginePlayer.VERSION);
 
         }
     }

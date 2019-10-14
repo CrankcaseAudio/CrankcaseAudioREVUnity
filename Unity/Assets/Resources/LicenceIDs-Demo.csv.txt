@@ -1,2 +1,2 @@
 Name,Display Name,Image,Description(English)
-Camaro_SS,Chevrolet Camaro SS,Camaro_SS.jpg,This modern remake of the classic muscle car features a massive 426 hp 6.2L V8.
+Camaro_SS,Chevrolet Camaro SS,TRUE,This modern remake of the classic muscle car features a massive 426 hp 6.2L V8.

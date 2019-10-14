@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using CrankcaseAudio.Unity;
 using CrankcaseAudio.Wrappers;
+using UnityEditor;
 using UnityEngine.Assertions;
 using UnityEngine.Audio;
 
@@ -15,6 +16,14 @@ public abstract class Main : MonoBehaviour
     //public AudioMixer audioMixer;
     protected CrankcaseAudio.Unity.REVEnginePlayer engineSimulator { get; private set; }
     private CrankcaseAudio.Unity.REVPhysicsSimulator physicsSimulator;
+    
+
+    //Sensible fade in/out duration    
+    private static float FADE_DURATION_MS = 0.4f;
+    private float fadeVolume = 0.0f;
+    private float masterVolume = 1.0f;
+    private CrankcaseAudio.Fade fader = null;
+
     
     public bool isEngineRunning { get; private set; }
 
@@ -32,13 +41,19 @@ public abstract class Main : MonoBehaviour
     protected void Update ()
     {
 
-//        if (errorMessage)
-//        {
-//
-//        }
-
         if(engineSimulator != null && physicsSimulator != null)
         {
+
+            float deltaTime = Time.deltaTime;
+            if(fader != null){
+                this.fadeVolume = fader.Update(deltaTime);
+                if(fader.isComplete) {
+                    fader = null;
+                }
+                engineSimulator.Volume = this.masterVolume * this.fadeVolume;
+            }
+
+
             REVPhysicsSimulator.PhysicsOutputParameters outputParams = physicsSimulator.OutputParams;
             engineSimulator.Throttle = outputParams.Throttle;
             engineSimulator.Velocity = outputParams.Velocity;
@@ -72,17 +87,18 @@ public abstract class Main : MonoBehaviour
 
     public virtual void SetVolume(float volume)
     {
+        this.masterVolume = volume;
         if (engineSimulator != null)
         {
-            engineSimulator.Volume = volume;
+            engineSimulator.Volume = this.masterVolume * this.fadeVolume;
         }
     }
 
-    public void LoadEngine (string engineName)
+    public void LoadEngine (Car carData)
     {
         appVersion = REVEnginePlayer.VERSION;
 
-        var fileBasePath = AudioSettings.outputSampleRate.ToString() + "\\";
+        
         DestroyEngine();        
 
         car = new GameObject("Car");
@@ -106,33 +122,9 @@ public abstract class Main : MonoBehaviour
 //        var engineMixer = audioMixer.FindMatchingGroups(_OutputMixer);
 //        engineSimulator.audioSource.outputAudioMixerGroup = engineMixer[0];
         
-
-
-#if APPSTORE
-        fileBasePath = "encrypted\\" + fileBasePath;
-#endif
-        var filePath = "engines\\" + fileBasePath + engineName;
-
-        Debug.Log ("Load Engine: " + filePath);
-        
-        byte [] fileData = null;
-        
-        var asset  = Resources.Load<TextAsset>(filePath);
-        
-        if(asset == null)
-            throw new UnityException("No asset:" + filePath);
-        
-        fileData = asset.bytes;
-        asset = null;
-        Resources.UnloadUnusedAssets( );
-
-#if APPSTORE
-        fileData = REVDemo.Security.Decode(fileData);
-#endif
+        var fileData = carData.LoadEngineData();
 
         engineSimulator.LoadModelFileData(fileData);
-        
-        SetVolume(0.8f);
 
         if (engineSimulator.PhysicsControlData != null)
         {
@@ -142,8 +134,15 @@ public abstract class Main : MonoBehaviour
         StartEngine();
     }
 
+    public void FadeEngine(Action completionAction = null)  {
+        fader = new CrankcaseAudio.Fade(FADE_DURATION_MS, 1.0f, 0.0f, CrankcaseAudio.eCurveType.TO_THE_HALF);
+        fader.completionAction = completionAction;
+    }
+
     public void StartEngine ()
     {
+        fader = new CrankcaseAudio.Fade(FADE_DURATION_MS, 0.0f, 1.0f, CrankcaseAudio.eCurveType.SQRD);
+
         if (physicsSimulator != null)
         {
             physicsSimulator.StartEngine ();
@@ -151,6 +150,7 @@ public abstract class Main : MonoBehaviour
         
         if(engineSimulator != null)
         {
+            engineSimulator.Volume = 0.0f;
             engineSimulator.StartEngine();
         }
         
@@ -159,17 +159,21 @@ public abstract class Main : MonoBehaviour
 
     public void PauseEngine ()
     {
-        if (physicsSimulator != null)
+        FadeEngine(() =>
         {
-            physicsSimulator.PauseEngine();
-        }
-        
-        if(engineSimulator != null)
-        {
-            engineSimulator.PauseEngine();
-        }
-        
-        isEngineRunning = false;
+            if (physicsSimulator != null)
+            {
+                physicsSimulator.PauseEngine();
+            }
+
+            if (engineSimulator != null)
+            {
+                engineSimulator.PauseEngine();
+            }
+
+            isEngineRunning = false;
+
+        });
     }
 
     public void DestroyEngine()

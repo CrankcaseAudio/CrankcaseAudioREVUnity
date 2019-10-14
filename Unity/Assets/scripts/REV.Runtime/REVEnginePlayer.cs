@@ -46,7 +46,6 @@ namespace CrankcaseAudio.Unity
         public TextAsset modelData;
         private byte[] modelFileBytes = null;
         private float[] modelAudioBuffer = null;
-        
 
         private int modelChannels = -1;
         private int modelSampleRate = 0;
@@ -71,7 +70,6 @@ namespace CrankcaseAudio.Unity
         private Wrappers.REVPlayerUpdateParams updateParams = new Wrappers.REVPlayerUpdateParams();
 
 
-        bool isDestroyed = false;
         private int hwSampleRate;
 
 
@@ -299,6 +297,7 @@ namespace CrankcaseAudio.Unity
             {
                 fixed (float* audioBufferPtr = audioBuffer)
                 {
+
                     var buffer = new Wrappers.Buffer();
                     buffer.Init(channels, new FloatArray((IntPtr)audioBufferPtr , false).cast(), audioBuffer.Length);
 
@@ -426,8 +425,22 @@ namespace CrankcaseAudio.Unity
         public void PauseEngine()
         {
             if (State == eState.Initialized || State == eState.Running)
-                State = eState.Paused;
+            {
+            
+                
+                var pausePAram = new REVPlayerUpdateParams();
+                pausePAram.Pitch = updateParams.Pitch;
+                pausePAram.Gear= updateParams.Gear;
+                pausePAram.EnableShifting = updateParams.EnableShifting;
+                pausePAram.Throttle = updateParams.Throttle;
+                pausePAram.Velocity = updateParams.Velocity;
+                pausePAram.Rpm = updateParams.Rpm;
+                pausePAram.Volume = 0.0f;
+                Player.Update(pausePAram, 0.0f);
 
+                this.OnAudioFilterRead(modelAudioBuffer, modelChannels);
+                State = eState.Paused;
+            }
         }
 
         /// <summary>

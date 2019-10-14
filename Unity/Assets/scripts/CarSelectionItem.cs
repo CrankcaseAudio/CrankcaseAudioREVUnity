@@ -50,6 +50,8 @@ public class CarSelectionItem : MonoBehaviour
 
         originalFontColor = titleText.color;
         originalOverlayAlpha = textOverlayImage.color.a;
+
+
     }
 
     private float GetRelativeDistanceFromCenter()
@@ -70,13 +72,17 @@ public class CarSelectionItem : MonoBehaviour
     public void SetSelected(bool isSelected)
     {
         this.isSelected = isSelected;
-        SetGrayscale((isSelected) ? 0f : 1f);
+        SetGrayscale((isSelected) ? false: true);
     }
 
-    public void SetGrayscale(float grayscale)
+    private void SetGrayscale(bool grayOverlayEnabled)
     {
-        grayscaleImage.color = new Color(1f, 1f, 1f, grayscale);
-        textOverlayImage.color = new Color(textOverlayImage.color.r, textOverlayImage.color.g, textOverlayImage.color.b, (1 - grayscale) * originalOverlayAlpha);
+        //grayscaleImage.color = new Color(1f, 1f, 1f, grayscale);
+        //textOverlayImage.color = new Color(textOverlayImage.color.r, textOverlayImage.color.g, textOverlayImage.color.b, (1 - grayscale) * originalOverlayAlpha);
+
+        grayscaleImage.enabled = grayOverlayEnabled;
+        float grayscale = grayOverlayEnabled ? 1.0f : 0.0f;
+
         borderImage.color = new Color(borderImage.color.r, borderImage.color.g, borderImage.color.b, 1 - grayscale);
     }
 
@@ -85,7 +91,7 @@ public class CarSelectionItem : MonoBehaviour
     /// </summary>
     public string GetImagePath(string imageName)
     {
-        return string.Format("{0}\\Images\\{1}", Application.streamingAssetsPath, imageName);
+        return string.Format("{0}//Images//{1}", Application.streamingAssetsPath, imageName);
     }
 
     public class CarEventArgs : EventArgs

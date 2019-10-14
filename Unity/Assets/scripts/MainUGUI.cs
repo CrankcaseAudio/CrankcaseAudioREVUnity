@@ -26,13 +26,14 @@ public class MainUGUI : Main
     {
         base.Initialize();
 
-        ShowPopUp(false);
+        ShowPopUp(false);   
         HideError();
         try {
 
             carSelectionManager = FindObjectOfType<CarSelectionManager>();
             carSelectionManager.Initialize();
             carSelectionManager.onSelectItem += CarSelectionManager_onSelectItem;
+            carSelectionManager.onBackButton += CarSelectionManagerOnOnBackButton;
 
             
             pitchSlider.minValue = 0.8f;
@@ -67,7 +68,6 @@ public class MainUGUI : Main
         try
         {
             LoadEngineFirstEngine();
-            StartEngine();
         }
         catch (Exception exception)
         {
@@ -76,6 +76,10 @@ public class MainUGUI : Main
         
     }
 
+    private void CarSelectionManagerOnOnBackButton(object sender, EventArgs e)
+    {
+        this.StartEngine();
+    }
 
 
     protected new void Update()
@@ -95,14 +99,17 @@ public class MainUGUI : Main
 
     protected void LoadEngineFirstEngine()
     {
-        this.LoadEngine(carSelectionManager.FirstCar().fileName);
+        var car = carSelectionManager.FirstCar();
+        carSelectionManager.SelectCar(car);
+        this.LoadEngine(car);
     }
 
-    private IEnumerator StartEngineDelay(CarSelectionItem.CarEventArgs e, float delay = 0.5f)
+    private IEnumerator StartEngineDelay(CarSelectionItem.CarEventArgs e, float delay = 1.0f)
     {
         yield return new WaitForSeconds(delay);
+        print("StartEngineDelay: WaitForSeconds");
         carSelectionManager.Toggle(false);
-        base.LoadEngine(e.car.fileName);
+        base.LoadEngine(e.car);
     }
 
 
@@ -114,6 +121,7 @@ public class MainUGUI : Main
 
     public void ShowError(String message)
     {
+        print(message);
         errorWindow.SetActive(true);
         const int MAX_MESSAGE_LENGTH = 1000;
         if (message.Length > MAX_MESSAGE_LENGTH)
@@ -153,11 +161,14 @@ public class MainUGUI : Main
 
     private void CarSelectionManager_onSelectItem(object sender, CarSelectionItem.CarEventArgs e)
     {
-        StartCoroutine(StartEngineDelay(e, 0.5f));
+        base.FadeEngine();
+        this.throttleSlider.value = 0.0f;
+        StartCoroutine(StartEngineDelay(e, 0.8f));
     }
 
     private void SelectButton_OnClick()
     {
+        this.PauseEngine();
         carSelectionManager.Toggle(true);
     }
 

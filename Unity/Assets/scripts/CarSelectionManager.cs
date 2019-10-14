@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using CrankcaseAudio;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -8,6 +9,7 @@ using UnityEngine.UI;
 public class CarSelectionManager : MonoBehaviour
 {
     public event EventHandler<CarSelectionItem.CarEventArgs> onSelectItem;
+    public event EventHandler<EventArgs> onBackButton;
 
     [Header("UI")]
     public Button backButton;
@@ -32,6 +34,22 @@ public class CarSelectionManager : MonoBehaviour
         return cars[0];
     }
 
+    public void SelectCar(Car car)
+    {
+        var indexOfCar = cars.IndexOf(car);
+        if (indexOfCar == -1)
+        {
+            return;
+        }
+
+        for (int i = 0; i < carItems.Count; i++)
+        {
+            var carItem = carItems[i];
+            carItem.SetSelected(indexOfCar == i);
+        }
+        
+    }
+
     public void Initialize()
     {
         this.gameObject.SetActive(false);
@@ -45,6 +63,16 @@ public class CarSelectionManager : MonoBehaviour
     {
         if (scrollAnimationCR != null)
             StopCoroutine(scrollAnimationCR);
+
+        if (index >= cars.Count - 2)
+        {
+            scrollAnimationCR = StartCoroutine(ScrollToBottom());
+            return;
+        } else if (index > 0)
+        {
+            index -= 1;
+        }
+
         scrollAnimationCR = StartCoroutine(ScrollToAnim(index));
     }
 
@@ -58,10 +86,27 @@ public class CarSelectionManager : MonoBehaviour
         while (Time.time - timeStarted <= scrollAnimationDuration)
         {
             float lerp = (Time.time - timeStarted) / scrollAnimationDuration;
-            scrollRect.verticalScrollbar.value = Mathf.Lerp(initialValue, targetValue, lerp);
+            scrollRect.verticalScrollbar.value = (float) Curve.Lerp(initialValue, targetValue, lerp, eCurveType.S_CURVE);
             yield return null;
         }
     }
+
+
+    private IEnumerator ScrollToBottom()
+    {
+        float timeStarted = Time.time;
+
+        float initialValue = scrollRect.verticalScrollbar.value;
+        float targetValue = 0;
+        while (Time.time - timeStarted <= scrollAnimationDuration)
+        {
+            float lerp = (Time.time - timeStarted) / scrollAnimationDuration;
+            scrollRect.verticalScrollbar.value = (float) Curve.Lerp(initialValue, targetValue, lerp, eCurveType.S_CURVE);
+            yield return null;
+        }
+    }
+
+
 
     public void Toggle(bool show)
     {
@@ -74,7 +119,7 @@ public class CarSelectionManager : MonoBehaviour
         {
             carItems[i].SetSelected(item == carItems[i]);
         }
-        ScrollTo(item.transform.GetSiblingIndex() - 1);
+        ScrollTo(item.transform.GetSiblingIndex());
     }
 
     private void CreateCarList()
@@ -110,6 +155,7 @@ public class CarSelectionManager : MonoBehaviour
 
     private void BackButton_OnClick()
     {
+        onBackButton(this, EventArgs.Empty);
         Toggle(false);
     }
 

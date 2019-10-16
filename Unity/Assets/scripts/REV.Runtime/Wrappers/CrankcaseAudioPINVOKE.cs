@@ -265,8 +265,11 @@ class CrankcaseAudioPINVOKE {
   [DllImport("REVRuntime", EntryPoint="CSharp_Buffer_Reset")]
   public static extern void Buffer_Reset(HandleRef jarg1);
 
-  [DllImport("REVRuntime", EntryPoint="CSharp_Buffer_Clear")]
-  public static extern void Buffer_Clear(HandleRef jarg1);
+  [DllImport("REVRuntime", EntryPoint="CSharp_Buffer_Clear__SWIG_0")]
+  public static extern void Buffer_Clear__SWIG_0(HandleRef jarg1, int jarg2);
+
+  [DllImport("REVRuntime", EntryPoint="CSharp_Buffer_Clear__SWIG_1")]
+  public static extern void Buffer_Clear__SWIG_1(HandleRef jarg1);
 
   [DllImport("REVRuntime", EntryPoint="CSharp_delete_Buffer")]
   public static extern void delete_Buffer(HandleRef jarg1);
@@ -343,6 +346,9 @@ class CrankcaseAudioPINVOKE {
   [DllImport("REVRuntime", EntryPoint="CSharp_IREVPlayer_WriteBuffer")]
   public static extern void IREVPlayer_WriteBuffer(HandleRef jarg1, HandleRef jarg2);
 
+  [DllImport("REVRuntime", EntryPoint="CSharp_IREVPlayer_Reset")]
+  public static extern float IREVPlayer_Reset(HandleRef jarg1, HandleRef jarg2, float jarg3);
+
   [DllImport("REVRuntime", EntryPoint="CSharp_IREVPlayer_getNumberChannels")]
   public static extern int IREVPlayer_getNumberChannels(HandleRef jarg1);
 
@@ -361,6 +367,9 @@ class CrankcaseAudioPINVOKE {
   [DllImport("REVRuntime", EntryPoint="CSharp_IREVPlayer_setRPMSmoothness")]
   public static extern void IREVPlayer_setRPMSmoothness(HandleRef jarg1, float jarg2);
 
+  [DllImport("REVRuntime", EntryPoint="CSharp_IREVPlayer_getModelFileHandle")]
+  public static extern IntPtr IREVPlayer_getModelFileHandle(HandleRef jarg1);
+
   [DllImport("REVRuntime", EntryPoint="CSharp_delete_IREVPlayer")]
   public static extern void delete_IREVPlayer(HandleRef jarg1);
 
@@ -372,6 +381,9 @@ class CrankcaseAudioPINVOKE {
 
   [DllImport("REVRuntime", EntryPoint="CSharp_GetNumberOfChannels")]
   public static extern int GetNumberOfChannels(HandleRef jarg1);
+
+  [DllImport("REVRuntime", EntryPoint="CSharp_GetHasLoops")]
+  public static extern bool GetHasLoops(HandleRef jarg1);
 
   [DllImport("REVRuntime", EntryPoint="CSharp_GetREVPhysicsControlData")]
   public static extern IntPtr GetREVPhysicsControlData(HandleRef jarg1);
@@ -796,8 +808,11 @@ class CrankcaseAudioPINVOKE {
   [DllImport("__Internal", EntryPoint="CSharp_Buffer_Reset")]
   public static extern void Buffer_Reset(HandleRef jarg1);
 
-  [DllImport("__Internal", EntryPoint="CSharp_Buffer_Clear")]
-  public static extern void Buffer_Clear(HandleRef jarg1);
+  [DllImport("__Internal", EntryPoint="CSharp_Buffer_Clear__SWIG_0")]
+  public static extern void Buffer_Clear__SWIG_0(HandleRef jarg1, int jarg2);
+
+  [DllImport("__Internal", EntryPoint="CSharp_Buffer_Clear__SWIG_1")]
+  public static extern void Buffer_Clear__SWIG_1(HandleRef jarg1);
 
   [DllImport("__Internal", EntryPoint="CSharp_delete_Buffer")]
   public static extern void delete_Buffer(HandleRef jarg1);
@@ -874,6 +889,9 @@ class CrankcaseAudioPINVOKE {
   [DllImport("__Internal", EntryPoint="CSharp_IREVPlayer_WriteBuffer")]
   public static extern void IREVPlayer_WriteBuffer(HandleRef jarg1, HandleRef jarg2);
 
+  [DllImport("__Internal", EntryPoint="CSharp_IREVPlayer_Reset")]
+  public static extern float IREVPlayer_Reset(HandleRef jarg1, HandleRef jarg2, float jarg3);
+
   [DllImport("__Internal", EntryPoint="CSharp_IREVPlayer_getNumberChannels")]
   public static extern int IREVPlayer_getNumberChannels(HandleRef jarg1);
 
@@ -892,6 +910,9 @@ class CrankcaseAudioPINVOKE {
   [DllImport("__Internal", EntryPoint="CSharp_IREVPlayer_setRPMSmoothness")]
   public static extern void IREVPlayer_setRPMSmoothness(HandleRef jarg1, float jarg2);
 
+  [DllImport("__Internal", EntryPoint="CSharp_IREVPlayer_getModelFileHandle")]
+  public static extern IntPtr IREVPlayer_getModelFileHandle(HandleRef jarg1);
+
   [DllImport("__Internal", EntryPoint="CSharp_delete_IREVPlayer")]
   public static extern void delete_IREVPlayer(HandleRef jarg1);
 
@@ -903,6 +924,9 @@ class CrankcaseAudioPINVOKE {
 
   [DllImport("__Internal", EntryPoint="CSharp_GetNumberOfChannels")]
   public static extern int GetNumberOfChannels(HandleRef jarg1);
+
+  [DllImport("__Internal", EntryPoint="CSharp_GetHasLoops")]
+  public static extern bool GetHasLoops(HandleRef jarg1);
 
   [DllImport("__Internal", EntryPoint="CSharp_GetREVPhysicsControlData")]
   public static extern IntPtr GetREVPhysicsControlData(HandleRef jarg1);

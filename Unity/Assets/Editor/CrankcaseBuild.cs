@@ -37,7 +37,7 @@ static void PerformBuildMacDemo()
 
         String baseFolder = "bin/" + subFolder;
         
-        BuildPipeline.BuildPlayer(scenes, baseFolder + "/MacOSX/REVDemo", BuildTarget.StandaloneOSXUniversal, BuildOptions.None);
+        BuildPipeline.BuildPlayer(scenes, baseFolder + "/MacOSX/REVDemo", BuildTarget.StandaloneOSX, BuildOptions.None);
         BuildPipeline.BuildPlayer(scenes, baseFolder + "/iOS/REVDemo.", BuildTarget.iOS, BuildOptions.None);
      }
 

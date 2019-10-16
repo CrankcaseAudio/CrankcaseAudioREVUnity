@@ -155,8 +155,7 @@ public class CarSelectionManager : MonoBehaviour
 
     private void BackButton_OnClick()
     {
-        onBackButton(this, EventArgs.Empty);
-        Toggle(false);
+        onBackButton?.Invoke(this, EventArgs.Empty);
     }
 
     /// <summary>

@@ -6,7 +6,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class CarSelectionItem : MonoBehaviour
+public class CarSelectionItem : OffScreenUI_Cull
 {
     public event EventHandler<CarEventArgs> onSelect;
 
@@ -50,8 +50,20 @@ public class CarSelectionItem : MonoBehaviour
 
         originalFontColor = titleText.color;
         originalOverlayAlpha = textOverlayImage.color.a;
+    }
 
+    public void SetSelected(bool isSelected)
+    {
+        this.isSelected = isSelected;
+        SetGrayscale((isSelected) ? false : true);
+    }
 
+    /// <summary>
+    /// Get full image path under {Application}\\StreamingAssets\\Images\\{model}.jpg
+    /// </summary>
+    public string GetImagePath(string imageName)
+    {
+        return string.Format("{0}//Images//{1}", Application.streamingAssetsPath, imageName);
     }
 
     private float GetRelativeDistanceFromCenter()
@@ -68,12 +80,6 @@ public class CarSelectionItem : MonoBehaviour
         distance *= 2f;
         return distance;
     }
-    
-    public void SetSelected(bool isSelected)
-    {
-        this.isSelected = isSelected;
-        SetGrayscale((isSelected) ? false: true);
-    }
 
     private void SetGrayscale(bool grayOverlayEnabled)
     {
@@ -86,12 +92,10 @@ public class CarSelectionItem : MonoBehaviour
         borderImage.color = new Color(borderImage.color.r, borderImage.color.g, borderImage.color.b, 1 - grayscale);
     }
 
-    /// <summary>
-    /// Get full image path under {Application}\\StreamingAssets\\Images\\{model}.jpg
-    /// </summary>
-    public string GetImagePath(string imageName)
+    protected override void OnCull(bool visible)
     {
-        return string.Format("{0}//Images//{1}", Application.streamingAssetsPath, imageName);
+        base.OnCull(visible);
+        this.transform.GetChild(0).gameObject.SetActive(visible);
     }
 
     public class CarEventArgs : EventArgs

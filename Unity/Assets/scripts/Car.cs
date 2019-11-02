@@ -78,7 +78,7 @@ public struct Car
         fileData = asset.bytes;
         Resources.UnloadUnusedAssets();
 
-#if APPSTORE
+#if APPSTORE_REMOVE
         fileData = REVDemo.Security.Decode(fileData);
 #endif
 

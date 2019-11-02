@@ -96,42 +96,44 @@ public abstract class Main : MonoBehaviour
 
     public void LoadEngine (Car carData)
     {
-        appVersion = REVEnginePlayer.VERSION;
-
-        
-        DestroyEngine();        
-
-        car = new GameObject("Car");
-        car.AddComponent<CrankcaseAudio.Unity.REVPhysicsSimulator>();
-        car.AddComponent<CrankcaseAudio.Unity.REVEnginePlayer>();
-        
-        
-        if(!car)
-            throw new UnityException("Failed to instantiate Car class");
-        
-        physicsSimulator = car.GetComponentInChildren<CrankcaseAudio.Unity.REVPhysicsSimulator>();
-        if(!physicsSimulator)
-            throw new UnityException("Failed to instantiate REVPhysicsSimulator class");
-        
-        engineSimulator =  car.GetComponentInChildren<CrankcaseAudio.Unity.REVEnginePlayer>();
-        if(!engineSimulator)
-            throw new UnityException("Failed to instantiate REVEnginePlayer class");
-
-    
-//        string _OutputMixer = "Engine";
-//        var engineMixer = audioMixer.FindMatchingGroups(_OutputMixer);
-//        engineSimulator.audioSource.outputAudioMixerGroup = engineMixer[0];
-        
-        var fileData = carData.LoadEngineData();
-
-        engineSimulator.LoadModelFileData(fileData);
-
-        if (engineSimulator.PhysicsControlData != null)
-        {
-            physicsSimulator.LoadWithPhysicsControlData(engineSimulator.PhysicsControlData);
-        }
-        
-        StartEngine();
+        return;
+//
+//        appVersion = REVEnginePlayer.VERSION;
+//
+//        
+//        DestroyEngine();        
+//
+//        car = new GameObject("Car");
+//        car.AddComponent<CrankcaseAudio.Unity.REVPhysicsSimulator>();
+//        car.AddComponent<CrankcaseAudio.Unity.REVEnginePlayer>();
+//        
+//        
+//        if(!car)
+//            throw new UnityException("Failed to instantiate Car class");
+//        
+//        physicsSimulator = car.GetComponentInChildren<CrankcaseAudio.Unity.REVPhysicsSimulator>();
+//        if(!physicsSimulator)
+//            throw new UnityException("Failed to instantiate REVPhysicsSimulator class");
+//        
+//        engineSimulator =  car.GetComponentInChildren<CrankcaseAudio.Unity.REVEnginePlayer>();
+//        if(!engineSimulator)
+//            throw new UnityException("Failed to instantiate REVEnginePlayer class");
+//
+//    
+////        string _OutputMixer = "Engine";
+////        var engineMixer = audioMixer.FindMatchingGroups(_OutputMixer);
+////        engineSimulator.audioSource.outputAudioMixerGroup = engineMixer[0];
+//        
+//        var fileData = carData.LoadEngineData();
+//
+//        engineSimulator.LoadModelFileData(fileData);
+//
+//        if (engineSimulator.PhysicsControlData != null)
+//        {
+//            physicsSimulator.LoadWithPhysicsControlData(engineSimulator.PhysicsControlData);
+//        }
+//        
+//        StartEngine();
     }
 
     public void FadeEngine(Action completionAction = null)  {

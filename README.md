@@ -14,7 +14,7 @@ Your access to and use of REV on GitHub is governed by the [License Agreement](L
 1) Copy contents of Unity\Assets\scripts\ to your project
 2) Copy plugin binaries from various source folders do your destination folders
 
-* Android : Unity\Assets\Plugins\Android\Libs\\**\libREVRuntime.so
+* Android : Unity\Assets\Plugins\Android\Libs\**\libREVRuntime.so
 * iOS :     Unity\Assets\Plugins\iOS\libREVRuntime.a
 * MacOSX :  Unity\Assets\Plugins\REVRuntime.bundle\
 * x64 :   Unity\Assets\Plugins\x86_64\REVRuntime.dll, Unity\Assets\Plugins\x86_64\REVRuntime.lib

@@ -55,5 +55,4 @@ REVRuntime.pdb
 REVRuntime.pdb.meta
 Unity/Assets/StreamingAssets/crashlytics-build.properties.meta
 Unity/Assets/REVDemo.keystore.meta
-Unity/iOS/REVIOS
-Unity/MacOS
+Unity/buildscripts/rev_engine.keystore

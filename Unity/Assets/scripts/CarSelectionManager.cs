@@ -17,9 +17,9 @@ public class CarSelectionManager : MonoBehaviour
     public GameObject carSelectionParent;
     public ScrollRect scrollRect;
 #if APPSTORE
-    private string configFilename = "LicenceIDs.csv";
+    private string configFilename = "LicenceIDs.tsv";
 #else
-    private string configFilename = "LicenceIDs-Demo.csv";
+    private string configFilename = "LicenceIDs-Demo.tsv";
 #endif
 
 

@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Networking;
 
@@ -10,7 +11,7 @@ using UnityEngine.Networking;
 /// </summary>
 public static class IOHelper
 {
-    public static readonly char columnSeparator = ',';
+    
     public static readonly bool skipFirstLine = true;
 
     /// <summary>
@@ -32,17 +33,23 @@ public static class IOHelper
         }
 
         // Read all lines form file
-        string[] lines = asset.text.Split(new[] {Environment.NewLine}, StringSplitOptions.None);
+        string[] lines = asset.text.Split(new[] {'\n'}, StringSplitOptions.None).Select(s =>s.Trim()).ToArray();
+
         for (int i = 0; i < lines.Length; i++)
         {
             if (skipFirstLine && i == 0)
                 continue;
 
             // Read all columns in line
-            string[] columns = lines[i].Split(columnSeparator);
+            string[] columns = lines[i].Split(new[] {'\t'});
+
+            if (columns[2] == "FALSE")
+            {
+                continue;
+            }
 
             // Check column integrity
-            if (columns.Length < 4)
+            if (columns.Length != 4)
             {
                 Debug.LogWarning(string.Format("Skipping invalid entry. Column dimension mismatch. Expected 4, but found {0}\n{1}", columns.Length, lines[i]));
                 continue;

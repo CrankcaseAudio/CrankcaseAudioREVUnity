@@ -193,7 +193,7 @@ namespace CrankcaseAudio.Unity
             lock (this)
             {
 
-                if (hwSampleRate == 0 || audioBufferChannels == 0 || audioBuffer.Length == 0)
+                if (hwSampleRate == 0 || audioBufferChannels == 0 || audioBuffer == null || audioBuffer.Length == 0)
                 {
                     return;
                 }

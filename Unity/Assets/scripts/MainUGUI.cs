@@ -1,13 +1,16 @@
-﻿using System;
+﻿
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 public class MainUGUI : Main
 {
     [Header("UI")]
+    public CanvasGroup canvas;
     public Button selectCarButton;
     public Slider volumeSlider;
     public Slider pitchSlider;
@@ -79,6 +82,7 @@ public class MainUGUI : Main
     private void CarSelectionManagerOnOnBackButton(object sender, EventArgs e)
     {
         this.StartEngine();
+        ToggleCarSelection(false);
     }
 
 
@@ -108,10 +112,17 @@ public class MainUGUI : Main
     {
         yield return new WaitForSeconds(delay);
         print("StartEngineDelay: WaitForSeconds");
-        carSelectionManager.Toggle(false);
+        ToggleCarSelection(false);
         base.LoadEngine(e.car);
     }
 
+    private void ToggleCarSelection(bool visible)
+    {
+        canvas.alpha = (!visible) ? 1 : 0;
+        canvas.interactable = !visible;
+
+        carSelectionManager.Toggle(visible);
+    }
 
     public void HideError()
     {
@@ -169,7 +180,7 @@ public class MainUGUI : Main
     private void SelectButton_OnClick()
     {
         this.PauseEngine();
-        carSelectionManager.Toggle(true);
+        ToggleCarSelection(true);
     }
 
     private void VolumeSlider_OnValueChanged(float arg0)
